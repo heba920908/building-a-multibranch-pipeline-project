@@ -9,3 +9,5 @@ git branch
 git checkout development
 #This will pull everything that it's on master
 git pull . master
+git config --global user.email "heba920908@gmail.com"
+git config --global user.name "heba920908"
