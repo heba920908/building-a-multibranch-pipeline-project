@@ -1,10 +1,5 @@
 pipeline {
-    agent {
-        docker {
-            image 'node:latest'
-            args '-p 3000:3000 -p 5000:5000'
-        }
-    }
+    agent { dockerfile true  }
 
     environment {
         CI = 'true'
@@ -12,8 +7,6 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'mkdir "/.npm"'
-                sh 'chown -R 993:990 "/.npm"'
                 sh 'npm install'
             }
         }
