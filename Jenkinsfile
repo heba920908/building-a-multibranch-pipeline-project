@@ -1,5 +1,10 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'node:6-alpine'
+            args '-p 3000:3000 -p 5000:5000'
+        }
+    }
 
     environment {
         CI = 'true'
@@ -18,6 +23,16 @@ pipeline {
         stage('Deliver for development') {
             when {
                 branch 'development' 
+            }
+            steps {
+                sh './jenkins/scripts/deliver-for-development.sh'
+                input message: 'Finished using the web site? (Click "Proceed" to continue)'
+                sh './jenkins/scripts/kill.sh'
+            }
+        }
+        stage('Deliver for container app') {
+            when {
+                branch 'dockerpipe'
             }
             steps {
                 sh './jenkins/scripts/deliver-for-development.sh'
